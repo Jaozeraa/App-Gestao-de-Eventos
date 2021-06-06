@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView } from 'react-native';
+import { ActivityIndicator, SafeAreaView, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import api from '../../services/api';
 import { ITicket } from '../Details';
@@ -28,13 +28,30 @@ export interface IUserTicket extends ITicket {
 
 const Tickets: React.FC = () => {
   const [tickets, setTickets] = useState<IUserTicket[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
       const response = await api.get<IUserTicket[]>('userTickets');
       setTickets(response.data);
+      setIsLoading(false);
     })();
   }, []);
+
+  if (isLoading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#ffffff',
+        }}
+      >
+        <ActivityIndicator size="large" color="#E13352" />
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

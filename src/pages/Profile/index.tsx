@@ -165,7 +165,7 @@ const Profile: React.FC = () => {
                 autoCapitalize="words"
                 name="name"
                 label="Nome"
-                placeholder="Nome"
+                placeholder="Digite seu nome"
               />
 
               <Input
@@ -174,7 +174,7 @@ const Profile: React.FC = () => {
                 autoCapitalize="none"
                 name="email"
                 label="E-mail"
-                placeholder="E-mail"
+                placeholder="Digite seu e-mail"
                 containerStyle={{ marginTop: 16 }}
               />
 
@@ -182,7 +182,7 @@ const Profile: React.FC = () => {
                 secureTextEntry
                 name="old_password"
                 label="Senha atual"
-                placeholder="Senha atual"
+                placeholder="Digite a senha atual"
                 textContentType="newPassword"
                 containerStyle={{ marginTop: 32 }}
               />
@@ -190,7 +190,7 @@ const Profile: React.FC = () => {
                 secureTextEntry
                 name="password"
                 label="Nova senha"
-                placeholder="Nova senha"
+                placeholder="Digite sua nova senha"
                 textContentType="newPassword"
                 containerStyle={{ marginTop: 16 }}
               />
@@ -198,7 +198,7 @@ const Profile: React.FC = () => {
                 secureTextEntry
                 label="Confirmar senha"
                 name="password_confirmation"
-                placeholder="Confirmar senha"
+                placeholder="Confirme sua senha"
                 textContentType="newPassword"
                 containerStyle={{ marginTop: 16 }}
               />
