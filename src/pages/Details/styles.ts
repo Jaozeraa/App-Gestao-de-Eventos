@@ -149,3 +149,39 @@ export const QrCodeContainer = styled.View`
   align-items: center;
   justify-content: center;
 `;
+
+export const EventDateShow = styled.View`
+  padding: 16px;
+  border-radius: 8px;
+  background: ${props => props.theme.g5};
+  position: absolute;
+  top: 216px;
+  left: 24px;
+  align-items: center;
+`;
+
+export const EventDateShowWeekDay = styled.Text`
+  font-family: 'Montserrat-Bold';
+  font-size: 20px;
+  line-height: 24px;
+  color: ${props => props.theme.g1};
+  text-transform: uppercase;
+`;
+
+export const EventDateShowDay = styled.Text`
+  font-family: 'Montserrat-Bold';
+  font-size: 28px;
+  line-height: 34px;
+  margin: 2px 0;
+  color: ${props => props.theme.g1};
+  text-transform: uppercase;
+  align-items: center;
+`;
+
+export const EventDateShowMonth = styled.Text`
+  font-family: 'Montserrat-Bold';
+  font-size: 20px;
+  line-height: 24px;
+  color: ${props => props.theme.g1};
+  text-transform: uppercase;
+`;

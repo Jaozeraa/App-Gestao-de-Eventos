@@ -8,6 +8,7 @@ import Profile from '../pages/Profile';
 import Tickets from '../pages/Tickets';
 import { createStackNavigator } from '@react-navigation/stack';
 import Details from '../pages/Details';
+import Payment from '../pages/Payment';
 
 const EventsStack = createStackNavigator();
 
@@ -21,6 +22,7 @@ function EventsStackScreen() {
     >
       <EventsStack.Screen name="Events" component={Events} />
       <EventsStack.Screen name="Details" component={Details} />
+      <EventsStack.Screen name="Payment" component={Payment} />
     </EventsStack.Navigator>
   );
 }
@@ -47,6 +49,7 @@ const HomeRoutes: React.FC = () => {
         tabBarLabel: () => null,
       })}
       tabBarOptions={{
+        keyboardHidesTabBar: true,
         activeTintColor: '#E13352',
         inactiveTintColor: '#ADB5BD',
         style: {

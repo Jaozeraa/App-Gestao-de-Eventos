@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
+import avatarImg from '../../assets/avatar.png';
 
 import {
   Container,
@@ -93,7 +94,9 @@ const Events: React.FC = () => {
             <UserNameText>{user.name}</UserNameText>
           </WelcomeView>
           <UserProfile onPress={signOut}>
-            <UserAvatar source={{ uri: user.avatar_url }} />
+            <UserAvatar
+              source={user.avatar_url ? { uri: user.avatar_url } : avatarImg}
+            />
           </UserProfile>
         </Header>
         {events.length > 0 && (

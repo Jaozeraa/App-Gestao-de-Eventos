@@ -79,7 +79,7 @@ const SignUp: React.FC = () => {
 
         Alert.alert(
           'Erro ao criar conta',
-          'Ocorreu um error ao criar sua conta. Tente novamente.',
+          'Ocorreu um erro ao criar sua conta. Tente novamente.',
         );
       }
     },
@@ -93,6 +93,7 @@ const SignUp: React.FC = () => {
       enabled
     >
       <ScrollView
+        showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{ flex: 1 }}
       >

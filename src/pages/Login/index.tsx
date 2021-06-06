@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 import {
   Alert,
   Image,
@@ -63,7 +63,7 @@ const Login: React.FC = () => {
 
         Alert.alert(
           'Erro na autenticação',
-          'Ocorreu um error ao fazer login, cheque as credenciais.',
+          'Ocorreu um erro ao fazer login, cheque as credenciais.',
         );
       }
     },
@@ -77,6 +77,7 @@ const Login: React.FC = () => {
       enabled
     >
       <ScrollView
+        showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{ flex: 1 }}
       >

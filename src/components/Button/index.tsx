@@ -5,12 +5,17 @@ import { ContainerWrapper, ButtonWrapper, ButtonText } from './styles';
 
 interface ButtonProps extends RectButtonProps {
   children: string;
+  enabled?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ children, ...rest }) => {
+const Button: React.FC<ButtonProps> = ({
+  children,
+  enabled = true,
+  ...rest
+}) => {
   return (
     <ContainerWrapper>
-      <ButtonWrapper {...rest}>
+      <ButtonWrapper enabled={enabled} {...rest}>
         <ButtonText>{children}</ButtonText>
       </ButtonWrapper>
     </ContainerWrapper>

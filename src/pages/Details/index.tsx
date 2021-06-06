@@ -1,4 +1,4 @@
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { View, ActivityIndicator, ScrollView, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
@@ -33,6 +33,10 @@ import {
   EventAnotherData,
   EventDescription,
   QrCodeContainer,
+  EventDateShow,
+  EventDateShowWeekDay,
+  EventDateShowDay,
+  EventDateShowMonth,
 } from './styles';
 import formatValue from '../../utils/formatValue';
 import Button from '../../components/Button';
@@ -57,7 +61,8 @@ interface IEventDetail extends IEvent {
 const Details: React.FC = () => {
   const [event, setEvent] = useState<IEventDetail>({} as IEventDetail);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedTicketId, setSelectedTicketId] = useState('');
+  const [selectedTicket, setSelectedTicket] = useState<ITicket>({} as ITicket);
+  const { navigate } = useNavigation();
   const route = useRoute();
   const params = route.params as RouteParams;
 
@@ -90,9 +95,7 @@ const Details: React.FC = () => {
       };
 
       setEvent(formattedEventPrices);
-      if (formattedEventPrices.tickets[0].id) {
-        setSelectedTicketId(formattedEventPrices.tickets[0].id);
-      }
+      setSelectedTicket(formattedEventPrices.tickets[0]);
       setIsLoading(false);
     })();
   }, [params]);
@@ -119,6 +122,23 @@ const Details: React.FC = () => {
           source={{ uri: event.promo_image_url }}
           resizeMode="cover"
         />
+        <EventDateShow>
+          <EventDateShowWeekDay>
+            {format(new Date(event.date), 'EEEE', { locale: ptBR }).substring(
+              0,
+              3,
+            )}
+          </EventDateShowWeekDay>
+          <EventDateShowDay>
+            {format(new Date(event.date), 'dd', { locale: ptBR })}
+          </EventDateShowDay>
+          <EventDateShowMonth>
+            {format(new Date(event.date), 'MMMM', { locale: ptBR }).substring(
+              0,
+              3,
+            )}
+          </EventDateShowMonth>
+        </EventDateShow>
         <EventDetailsContainer>
           <EventBasicData>
             <EventName>{event.name}</EventName>
@@ -143,8 +163,8 @@ const Details: React.FC = () => {
             horizontal
             renderItem={({ item: ticket }) => (
               <TicketContainer
-                onPress={() => setSelectedTicketId(ticket.id)}
-                selected={ticket.id === selectedTicketId}
+                onPress={() => setSelectedTicket(ticket)}
+                selected={ticket.id === selectedTicket.id}
               >
                 <TicketImage source={ticketImg} />
                 <TicketContent>
@@ -159,7 +179,16 @@ const Details: React.FC = () => {
             <QrCodeContainer>
               <QRCode size={200} value={event.id} />
             </QrCodeContainer>
-            <Button>Comprar ingresso</Button>
+            <Button
+              onPress={() =>
+                navigate('Payment', {
+                  ticket: selectedTicket,
+                  event,
+                })
+              }
+            >
+              {`Comprar ingresso - ${formatValue(selectedTicket.price)}`}
+            </Button>
           </EventAnotherData>
         </EventDetailsContainer>
       </Container>

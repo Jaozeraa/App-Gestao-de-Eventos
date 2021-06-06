@@ -1,4 +1,4 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 import { RectButton } from 'react-native-gesture-handler';
 
 export const ContainerWrapper = styled.View`
@@ -13,6 +13,13 @@ export const ButtonWrapper = styled(RectButton)`
   border: 0;
   align-items: center;
   justify-content: center;
+  opacity: 0.5;
+
+  ${props =>
+    props.enabled &&
+    css`
+      opacity: 1;
+    `}
 `;
 
 export const ButtonText = styled.Text`
