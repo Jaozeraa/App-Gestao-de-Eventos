@@ -1,13 +1,75 @@
-import React from 'react';
-import { Text } from 'react-native';
+import { format } from 'date-fns';
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView } from 'react-native';
+import QRCode from 'react-native-qrcode-svg';
+import api from '../../services/api';
+import { ITicket } from '../Details';
+import { IEvent } from '../Events';
 
-import { Container } from './styles';
+import {
+  Container,
+  HeaderTitle,
+  TicketsList,
+  TicketContainer,
+  EventContainer,
+  EventImage,
+  EventData,
+  EventType,
+  EventName,
+  EventFooter,
+  EventDate,
+  EventDateInfo,
+  QrCodeContainer,
+} from './styles';
+
+export interface IUserTicket extends ITicket {
+  event: IEvent;
+}
 
 const Tickets: React.FC = () => {
+  const [tickets, setTickets] = useState<IUserTicket[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const response = await api.get<IUserTicket[]>('userTickets');
+      setTickets(response.data);
+    })();
+  }, []);
+
   return (
-    <Container>
-      <Text>Tickets</Text>
-    </Container>
+    <SafeAreaView style={{ flex: 1 }}>
+      <Container>
+        <HeaderTitle>Seus ingressos</HeaderTitle>
+        <TicketsList
+          data={tickets}
+          keyExtractor={ticket => ticket.id}
+          showsVerticalScrollIndicator={false}
+          scrollEnabled={true}
+          renderItem={({ item: ticket }) => (
+            <TicketContainer>
+              <EventContainer>
+                <EventImage source={{ uri: ticket.event.promo_image_url }} />
+                <EventData>
+                  <EventType>{ticket.event.type}</EventType>
+                  <EventName>{ticket.event.name}</EventName>
+                  <EventFooter>
+                    <EventDate>
+                      <EventDateInfo>{ticket.event.state_city}</EventDateInfo>
+                      <EventDateInfo style={{ marginTop: 4 }}>
+                        {format(new Date(ticket.event.date), 'dd/MM - HH:mm')}
+                      </EventDateInfo>
+                    </EventDate>
+                  </EventFooter>
+                </EventData>
+              </EventContainer>
+              <QrCodeContainer>
+                <QRCode size={200} value={ticket.id} />
+              </QrCodeContainer>
+            </TicketContainer>
+          )}
+        />
+      </Container>
+    </SafeAreaView>
   );
 };
 

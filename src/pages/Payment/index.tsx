@@ -1,7 +1,7 @@
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { FormHandles } from '@unform/core';
 import { format } from 'date-fns';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import * as Yup from 'yup';
 
 import {
@@ -38,6 +38,7 @@ import {
   TotalPriceInfo,
 } from './styles';
 import getValidationErrors from '../../utils/getValidationErrors';
+import api from '../../services/api';
 
 interface RouteParams {
   ticket: ITicket;
@@ -53,36 +54,53 @@ interface PaymentFormData {
 const Payment: React.FC = () => {
   const route = useRoute();
   const formRef = useRef<FormHandles>(null);
+  const { reset } = useNavigation();
   const params = route.params as RouteParams;
   const { ticket, event } = params;
+  const [buttonIsLoading, setButtonIsLoading] = useState(false);
 
-  const handleSubmit = useCallback(async (data: PaymentFormData) => {
-    try {
-      formRef.current?.setErrors({});
+  const handleSubmit = useCallback(
+    async (data: PaymentFormData) => {
+      try {
+        setButtonIsLoading(true);
+        formRef.current?.setErrors({});
 
-      const schema = Yup.object().shape({
-        number: Yup.string().required('Número do cartão é obrigatório'),
-        expiration_date: Yup.string().required(
-          'Data de validade é obrigatória',
-        ),
-        cvv: Yup.string().required('CVV é obrigatório').min(3, 'CVV inválido'),
-      });
+        const schema = Yup.object().shape({
+          number: Yup.string().required('Número do cartão é obrigatório'),
+          expiration_date: Yup.string().required(
+            'Data de validade é obrigatória',
+          ),
+          cvv: Yup.string()
+            .required('CVV é obrigatório')
+            .min(3, 'CVV inválido'),
+        });
 
-      await schema.validate(data, { abortEarly: false });
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(err);
+        await schema.validate(data, { abortEarly: false });
 
-        formRef.current?.setErrors(errors);
-        return;
+        await api.post(`/userTickets/${ticket.id}`);
+
+        reset({
+          routes: [{ name: 'Success', params: { event } }],
+          index: 0,
+        });
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
+
+          formRef.current?.setErrors(errors);
+          return;
+        }
+
+        Alert.alert(
+          'Erro na compra de ingressos',
+          'Ocorreu um erro ao realizar sua compra. Tente novamente',
+        );
+      } finally {
+        setButtonIsLoading(false);
       }
-
-      Alert.alert(
-        'Erro na compra de ingressos',
-        'Ocorreu um erro ao realizar sua compra. Tente novamente',
-      );
-    }
-  }, []);
+    },
+    [reset],
+  );
 
   return (
     <KeyboardAvoidingView
@@ -159,7 +177,10 @@ const Payment: React.FC = () => {
                 <TotalPriceInfo>{formatValue(ticket.price)}</TotalPriceInfo>
               </TotalPriceRow>
             </PriceContainer>
-            <Button onPress={() => formRef.current?.submitForm()}>
+            <Button
+              enabled={!buttonIsLoading}
+              onPress={() => formRef.current?.submitForm()}
+            >
               Finalizar
             </Button>
           </Container>

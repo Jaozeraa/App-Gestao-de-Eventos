@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 import {
   Alert,
   Image,
@@ -36,10 +36,12 @@ const SignUp: React.FC = () => {
   const { goBack } = useNavigation();
   const formRef = useRef<FormHandles>(null);
   const { logIn } = useAuth();
+  const [buttonIsLoading, setButtonIsLoading] = useState(false);
 
   const handleSubmit = useCallback(
     async (data: SignUpFormData) => {
       try {
+        setButtonIsLoading(true);
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
@@ -81,6 +83,8 @@ const SignUp: React.FC = () => {
           'Erro ao criar conta',
           'Ocorreu um erro ao criar sua conta. Tente novamente.',
         );
+      } finally {
+        setButtonIsLoading(false);
       }
     },
     [logIn, goBack],
@@ -128,7 +132,10 @@ const SignUp: React.FC = () => {
               secureTextEntry
             />
 
-            <Button onPress={() => formRef.current?.submitForm()}>
+            <Button
+              enabled={!buttonIsLoading}
+              onPress={() => formRef.current?.submitForm()}
+            >
               Cadastrar
             </Button>
           </Form>

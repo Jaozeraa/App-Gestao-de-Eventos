@@ -9,10 +9,11 @@ import Tickets from '../pages/Tickets';
 import { createStackNavigator } from '@react-navigation/stack';
 import Details from '../pages/Details';
 import Payment from '../pages/Payment';
+import Success from '../pages/Success';
 
 const EventsStack = createStackNavigator();
 
-function EventsStackScreen() {
+const EventsStackScreen: React.FC = () => {
   return (
     <EventsStack.Navigator
       screenOptions={{
@@ -25,7 +26,7 @@ function EventsStackScreen() {
       <EventsStack.Screen name="Payment" component={Payment} />
     </EventsStack.Navigator>
   );
-}
+};
 
 const Tab = createBottomTabNavigator();
 
@@ -65,4 +66,20 @@ const HomeRoutes: React.FC = () => {
   );
 };
 
-export default HomeRoutes;
+const AppStack = createStackNavigator();
+
+const AppRoutes: React.FC = () => {
+  return (
+    <AppStack.Navigator
+      screenOptions={{
+        headerShown: false,
+        cardStyle: { backgroundColor: '#fff' },
+      }}
+    >
+      <AppStack.Screen name="Events" component={HomeRoutes} />
+      <AppStack.Screen name="Success" component={Success} />
+    </AppStack.Navigator>
+  );
+};
+
+export default AppRoutes;

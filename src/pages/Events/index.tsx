@@ -93,7 +93,7 @@ const Events: React.FC = () => {
             <WelcomeText>Bem-vindo(a)</WelcomeText>
             <UserNameText>{user.name}</UserNameText>
           </WelcomeView>
-          <UserProfile onPress={signOut}>
+          <UserProfile onPress={() => navigate('Profile')}>
             <UserAvatar
               source={user.avatar_url ? { uri: user.avatar_url } : avatarImg}
             />

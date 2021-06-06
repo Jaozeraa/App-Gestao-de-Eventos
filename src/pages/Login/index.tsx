@@ -34,10 +34,12 @@ const Login: React.FC = () => {
   const { navigate } = useNavigation();
   const formRef = useRef<FormHandles>(null);
   const { logIn } = useAuth();
+  const [buttonIsLoading, setButtonIsLoading] = useState(false);
 
   const handleSubmit = useCallback(
     async (data: LogInFormData) => {
       try {
+        setButtonIsLoading(true);
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
@@ -65,6 +67,8 @@ const Login: React.FC = () => {
           'Erro na autenticação',
           'Ocorreu um erro ao fazer login, cheque as credenciais.',
         );
+      } finally {
+        setButtonIsLoading(false);
       }
     },
     [logIn],
@@ -105,7 +109,10 @@ const Login: React.FC = () => {
               secureTextEntry
             />
 
-            <Button onPress={() => formRef.current?.submitForm()}>
+            <Button
+              enabled={!buttonIsLoading}
+              onPress={() => formRef.current?.submitForm()}
+            >
               Entrar
             </Button>
           </Form>
