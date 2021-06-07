@@ -39,6 +39,7 @@ import {
 } from './styles';
 import getValidationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
+import InputMask from '../../components/InputMask';
 
 interface RouteParams {
   ticket: ITicket;
@@ -134,20 +135,28 @@ const Payment: React.FC = () => {
               </EventData>
             </EventContainer>
             <Form ref={formRef} onSubmit={handleSubmit}>
-              <Input
+              <InputMask
+                type={'credit-card'}
                 label="Número do cartão"
                 name="number"
                 placeholder="Digite o número"
                 autoCorrect={false}
                 autoCapitalize="none"
                 keyboardType="number-pad"
+                maxLength={19}
               />
               <DoubleInputView>
-                <Input
+                <InputMask
+                  type={'custom'}
+                  options={{
+                    mask: '99/9999',
+                  }}
                   label="Data de validade"
                   name="expiration_date"
                   placeholder="Digite a data"
                   autoCorrect={false}
+                  maxLength={7}
+                  keyboardType="number-pad"
                   autoCapitalize="none"
                   containerStyle={{ flex: 1, marginRight: 8 }}
                 />

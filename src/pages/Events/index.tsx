@@ -104,6 +104,7 @@ const Events: React.FC = () => {
             data={events}
             keyExtractor={event => event.id}
             ListHeaderComponent={<Title>Eventos</Title>}
+            contentContainerStyle={{ marginBottom: 24, height: '100%' }}
             renderItem={({ item: event }) => (
               <EventContainer>
                 <EventImage source={{ uri: event.promo_image_url }} />

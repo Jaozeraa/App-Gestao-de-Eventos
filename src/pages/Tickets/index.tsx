@@ -1,10 +1,11 @@
 import { format } from 'date-fns';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { ActivityIndicator, SafeAreaView, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import api from '../../services/api';
 import { ITicket } from '../Details';
 import { IEvent } from '../Events';
+import { useFocusEffect } from '@react-navigation/native';
 
 import {
   Container,
@@ -30,13 +31,15 @@ const Tickets: React.FC = () => {
   const [tickets, setTickets] = useState<IUserTicket[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    (async () => {
-      const response = await api.get<IUserTicket[]>('userTickets');
-      setTickets(response.data);
-      setIsLoading(false);
-    })();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      (async () => {
+        const response = await api.get<IUserTicket[]>('userTickets');
+        setTickets(response.data);
+        setIsLoading(false);
+      })();
+    }, []),
+  );
 
   if (isLoading) {
     return (
@@ -62,6 +65,7 @@ const Tickets: React.FC = () => {
           keyExtractor={ticket => ticket.id}
           showsVerticalScrollIndicator={false}
           scrollEnabled={true}
+          contentContainerStyle={{ marginBottom: 24, height: '100%' }}
           renderItem={({ item: ticket }) => (
             <TicketContainer>
               <EventContainer>

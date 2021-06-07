@@ -15,9 +15,9 @@ export const HeaderTitle = styled.Text`
   margin-bottom: 8px;
 `;
 
-export const TicketsList = styled(FlatList as new () => FlatList<IUserTicket>)`
-  margin-bottom: 56px;
-`;
+export const TicketsList = styled(
+  FlatList as new () => FlatList<IUserTicket>,
+)``;
 
 export const TicketContainer = styled.View`
   border-radius: 8px;

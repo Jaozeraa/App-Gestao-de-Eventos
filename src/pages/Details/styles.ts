@@ -87,7 +87,7 @@ export const EventPrice = styled.Text`
 `;
 
 export const EventTickets = styled(FlatList as new () => FlatList<ITicket>)`
-  padding: 24px 24px 24px 8px;
+  padding: 24px 0 24px 0;
 `;
 
 interface TicketContainerProps {

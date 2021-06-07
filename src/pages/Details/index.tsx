@@ -161,8 +161,10 @@ const Details: React.FC = () => {
             scrollEnabled={true}
             showsHorizontalScrollIndicator={false}
             horizontal
-            renderItem={({ item: ticket }) => (
+            contentContainerStyle={{ paddingHorizontal: 24 }}
+            renderItem={({ item: ticket, index }) => (
               <TicketContainer
+                style={index === 0 && { marginLeft: 0 }}
                 onPress={() => setSelectedTicket(ticket)}
                 selected={ticket.id === selectedTicket.id}
               >
