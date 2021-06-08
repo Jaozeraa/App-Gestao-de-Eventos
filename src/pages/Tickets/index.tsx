@@ -59,12 +59,12 @@ const Tickets: React.FC = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Container>
-        <HeaderTitle>Seus ingressos</HeaderTitle>
         <TicketsList
           data={tickets}
           keyExtractor={ticket => ticket.id}
           showsVerticalScrollIndicator={false}
           scrollEnabled={true}
+          ListHeaderComponent={<HeaderTitle>Seus ingressos</HeaderTitle>}
           contentContainerStyle={{ marginBottom: 24, height: '100%' }}
           renderItem={({ item: ticket }) => (
             <TicketContainer>

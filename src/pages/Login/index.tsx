@@ -56,6 +56,7 @@ const Login: React.FC = () => {
           password: data.password,
         });
       } catch (err) {
+        setButtonIsLoading(false);
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
 
@@ -67,8 +68,6 @@ const Login: React.FC = () => {
           'Erro na autenticação',
           'Ocorreu um erro ao fazer login, cheque as credenciais.',
         );
-      } finally {
-        setButtonIsLoading(false);
       }
     },
     [logIn],

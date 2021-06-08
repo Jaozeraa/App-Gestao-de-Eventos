@@ -85,6 +85,7 @@ const Payment: React.FC = () => {
           index: 0,
         });
       } catch (err) {
+        setButtonIsLoading(false);
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
 
@@ -96,8 +97,6 @@ const Payment: React.FC = () => {
           'Erro na compra de ingressos',
           'Ocorreu um erro ao realizar sua compra. Tente novamente',
         );
-      } finally {
-        setButtonIsLoading(false);
       }
     },
     [reset],

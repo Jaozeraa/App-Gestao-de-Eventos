@@ -65,6 +65,7 @@ const SignUp: React.FC = () => {
 
         goBack();
       } catch (err) {
+        setButtonIsLoading(false);
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
 
@@ -83,8 +84,6 @@ const SignUp: React.FC = () => {
           'Erro ao criar conta',
           'Ocorreu um erro ao criar sua conta. Tente novamente.',
         );
-      } finally {
-        setButtonIsLoading(false);
       }
     },
     [logIn, goBack],

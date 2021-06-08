@@ -74,6 +74,7 @@ export const EventType = styled.Text`
   font-family: 'Montserrat-Bold';
   font-size: 12px;
   color: ${props => props.theme.red_dark};
+  text-transform: uppercase;
 `;
 
 export const EventName = styled.Text`
